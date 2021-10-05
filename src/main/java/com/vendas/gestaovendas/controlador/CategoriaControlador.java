@@ -27,6 +27,10 @@ public class CategoriaControlador {
 	}
 
 	@GetMapping(path = "/{codigo}")
+	/**
+	 *  @param codigo da categoria 
+	 *  @return  um objeto optional de categoria caso a resposta seja ok.
+	 * */
 	public ResponseEntity<Optional<Categoria>> buscarPorId(@PathVariable(name = "codigo") Long codigo) {
 		 
 		Optional<Categoria> optCategoria = service.buscarPorId(codigo);
