@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -39,6 +40,19 @@ public class CategoriaControlador {
 		Optional<Categoria> optCategoria = service.buscarPorId(codigo);
 
 		return optCategoria.isPresent() ? ResponseEntity.ok(optCategoria) : ResponseEntity.notFound().build();
+	}
+
+	@PutMapping(path = "/{codigo}")
+	/**
+	 * @param codigo da categoria
+	 * @return um objeto optional de categoria caso a resposta seja ok.
+	 */
+	public ResponseEntity<Categoria> atualizarCategoria(@PathVariable(name = "codigo") Long codigo,
+			@RequestBody Categoria categoria) {
+
+		Categoria categoriaAtualizada = service.atualizarCategoria(codigo, categoria);
+
+		return ResponseEntity.ok(categoriaAtualizada);
 	}
 
 	@PostMapping
