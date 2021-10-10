@@ -21,7 +21,7 @@ public class Categoria {
 	private Long codigo;
 
 	@Column(name = "nome")
-	@NotBlank(message = "A categoria não pode ser vazia")
+	@NotBlank(message = "Nome")
 	@Length(min = 3 , message = "Não pode ter menos de 3 caracteres")
 	private String nome;
 
