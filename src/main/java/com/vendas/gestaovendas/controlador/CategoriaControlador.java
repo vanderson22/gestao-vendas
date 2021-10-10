@@ -3,6 +3,8 @@ package com.vendas.gestaovendas.controlador;
 import java.util.List;
 import java.util.Optional;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -60,7 +62,7 @@ public class CategoriaControlador {
 	 * @param categoria
 	 * @return um objeto optional de categoria, caso salvo com sucesso.
 	 */
-	public ResponseEntity<Categoria> buscarPorId(@RequestBody() Categoria categoria) {
+	public ResponseEntity<Categoria> buscarPorId(@Valid() @RequestBody() Categoria categoria) {
 
 		Categoria categoriaSalva = service.salvar(categoria);
 
