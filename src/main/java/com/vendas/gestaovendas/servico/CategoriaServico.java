@@ -48,4 +48,8 @@ public class CategoriaServico {
 	private Optional<Categoria> categoriaExiste(Long codigo) {
 		return buscarPorId(codigo);
 	}
+
+	public void deleteById(Long codigo) {
+		repo.deleteById(codigo);
+	}
 }

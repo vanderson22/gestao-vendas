@@ -1,8 +1,10 @@
 package com.vendas.gestaovendas.excecao;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,6 +12,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
@@ -48,6 +51,24 @@ public class GestaoVendasExceptionHandler extends ResponseEntityExceptionHandler
 
 		// Atenção neste trecho de retorno
 		return handleExceptionInternal(ex, errors, headers, HttpStatus.BAD_REQUEST, request);
+	}
+
+	/*
+	 * Exception customizada Esta exceção é lançada manualmente+
+	 * 
+	 *IMPORTANTE, a assinatura do método deve ser somente a exception e o request. conforme a seguir 
+	 */
+
+	@ExceptionHandler(EmptyResultDataAccessException.class)
+	public ResponseEntity<Object> handleEmptyResultDataAccessException(EmptyResultDataAccessException ex,
+			WebRequest request) {
+
+		String msgU = "Recurso não encontrado";
+		String msgDev = ex.toString();
+
+		List<Erro> errors = Arrays.asList(new Erro(msgU, msgDev));
+
+		return handleExceptionInternal(ex, errors, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
 	}
 
 	private List<Erro> gerarListaDeErrors(BindingResult bindingResult) {
