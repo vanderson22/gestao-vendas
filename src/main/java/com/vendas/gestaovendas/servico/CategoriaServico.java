@@ -9,6 +9,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import com.vendas.gestaovendas.entidades.Categoria;
+import com.vendas.gestaovendas.excecao.RegraNegocioException;
 import com.vendas.gestaovendas.repositorio.CategoriaRepositorio;
 
 @Service
@@ -51,5 +52,13 @@ public class CategoriaServico {
 
 	public void deleteById(Long codigo) {
 		repo.deleteById(codigo);
+	}
+
+	private void validarCategoriaDuplicada(Categoria categoria) {
+		Categoria catEncontrada = repo.findByNome(categoria.getNome());
+		if (catEncontrada != null && !catEncontrada.getCodigo().equals(categoria.getCodigo())) {
+			throw new RegraNegocioException(String.format("A Categoria %s já está cadastrada", categoria.getNome()));
+		}
+
 	}
 }
