@@ -14,7 +14,6 @@ import javax.persistence.ManyToOne;
 @Entity
 public class Produto {
 
-	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long codigo;
@@ -27,16 +26,19 @@ public class Produto {
 
 	@Column(name = "preco_curto")
 	private BigDecimal precoCusto;
-	
+
 	@Column(name = "preco_venda")
 	private BigDecimal precoVenda;
-	
+
 	@Column(name = "observacao")
 	private String observacao;
-	
+
 	@ManyToOne
-	@JoinColumn(name = "codigo_categoria" , referencedColumnName = "codigo")
+	@JoinColumn(name = "codigo_categoria", referencedColumnName = "codigo")
 	private Categoria categoria;
+
+	public Produto() {
+	}
 
 	/**
 	 * @param codigo
@@ -48,7 +50,7 @@ public class Produto {
 	 * @param categoria
 	 */
 	public Produto(long codigo, String descricao, Integer quantidade, BigDecimal precoCusto, BigDecimal precoVenda,
-			String observacao ) {
+			String observacao) {
 		super();
 		this.codigo = codigo;
 		this.descricao = descricao;
@@ -56,7 +58,7 @@ public class Produto {
 		this.precoCusto = precoCusto;
 		this.precoVenda = precoVenda;
 		this.observacao = observacao;
-		 
+
 	}
 
 	/**
@@ -173,9 +175,5 @@ public class Produto {
 		Produto other = (Produto) obj;
 		return Objects.equals(categoria, other.categoria) && codigo == other.codigo;
 	}
-	
-	
-	
-	
-	
+
 }
