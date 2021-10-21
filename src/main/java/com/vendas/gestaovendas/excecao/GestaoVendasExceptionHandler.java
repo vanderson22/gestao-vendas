@@ -56,7 +56,8 @@ public class GestaoVendasExceptionHandler extends ResponseEntityExceptionHandler
 	/*
 	 * Exception customizada Esta exceção é lançada manualmente+
 	 * 
-	 *IMPORTANTE, a assinatura do método deve ser somente a exception e o request. conforme a seguir 
+	 * IMPORTANTE, a assinatura do método deve ser somente a exception e o request.
+	 * conforme a seguir
 	 */
 
 	@ExceptionHandler(EmptyResultDataAccessException.class)
@@ -68,7 +69,8 @@ public class GestaoVendasExceptionHandler extends ResponseEntityExceptionHandler
 
 		List<Erro> errors = Arrays.asList(new Erro(msgU, msgDev));
 
-		return handleExceptionInternal(ex, errors, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
+		return handleExceptionInternal(ex, errors, new HttpHeaders(),
+				ex.getExpectedSize() > 1 ? HttpStatus.NOT_FOUND : HttpStatus.BAD_REQUEST, request);
 	}
 
 	private List<Erro> gerarListaDeErrors(BindingResult bindingResult) {

@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -37,5 +38,12 @@ public class ProdutoController {
 	public ResponseEntity<Page<Produto>> listarTodos(@RequestParam("page") int page, @RequestParam("size") int size) {
 		PageRequest req = PageRequest.of(page, size);
 		return ResponseEntity.ok(prodServico.listarTodosPaginado(req));
+	}
+
+	@ApiOperation(value = "buscar-id")
+	@GetMapping(path = "/{codigo}")
+	public ResponseEntity<Produto> buscarPorId(@PathVariable(name = "codigo", required = true) Long codigo) {
+
+		return ResponseEntity.ok(prodServico.buscarPorId(codigo));
 	}
 }

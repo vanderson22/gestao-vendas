@@ -10,6 +10,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotBlank;
+
+import org.hibernate.validator.constraints.Length;
 
 @Entity
 public class Produto {
@@ -19,6 +22,8 @@ public class Produto {
 	private long codigo;
 
 	@Column(name = "descricao")
+	@NotBlank(message = "descricao")
+	@Length(min = 3 , message = "Não pode ter menos de 3 caracteres - %1")
 	private String descricao;
 
 	@Column(name = "quantidade")
