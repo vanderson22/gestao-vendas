@@ -23,7 +23,7 @@ public class Produto {
 
 	@Column(name = "descricao")
 	@NotBlank(message = "descricao")
-	@Length(min = 3 , message = "Não pode ter menos de 3 caracteres - %1")
+	@Length(min = 3, message = "Não pode ter menos de 3 caracteres - %1")
 	private String descricao;
 
 	@Column(name = "quantidade")
@@ -162,6 +162,13 @@ public class Produto {
 	 */
 	public void setCategoria(Categoria categoria) {
 		this.categoria = categoria;
+	}
+
+	@Override
+	public String toString() {
+		return "Produto [codigo=" + codigo + ", descricao=" + descricao + ", quantidade=" + quantidade + ", precoCusto="
+				+ precoCusto + ", precoVenda=" + precoVenda + ", observacao=" + observacao + ", categoria=" + categoria
+				+ "]";
 	}
 
 	@Override
