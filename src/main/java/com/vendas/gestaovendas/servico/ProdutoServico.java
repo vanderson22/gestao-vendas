@@ -12,7 +12,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.vendas.gestaovendas.controlador.ProdutoController;
+import com.vendas.gestaovendas.entidades.Categoria;
 import com.vendas.gestaovendas.entidades.Produto;
+import com.vendas.gestaovendas.excecao.RegraNegocioException;
 import com.vendas.gestaovendas.repositorio.ProdutoRepositorio;
 
 @Service
@@ -20,9 +22,11 @@ public class ProdutoServico {
 
 	@Autowired
 	private ProdutoRepositorio repo;
-	
-	final static Logger LOGGER = LoggerFactory.getLogger(ProdutoController.class);
 
+	@Autowired
+	private CategoriaServico catRepo;
+
+	final static Logger LOGGER = LoggerFactory.getLogger(ProdutoController.class);
 
 	public List<Produto> listarTodos() {
 
@@ -44,9 +48,26 @@ public class ProdutoServico {
 	public void remover(Long codigo) {
 
 		Produto produto = buscarPorId(codigo);
-		LOGGER.trace("Produto encontrado {} - prosseguindo com a remoção " , produto);
+		LOGGER.trace("Produto encontrado {} - prosseguindo com a remoção ", produto);
+
 		repo.delete(produto);
 
+	}
+
+	public Produto criar(Produto p) {
+		if (p.getCategoria() != null && p.getCategoria().getCodigo() != null) {
+
+			Optional<Categoria> optional = catRepo.buscarPorId(p.getCategoria().getCodigo());
+			if (!optional.isPresent()) {
+				throw new EmptyResultDataAccessException(
+						String.format("A Categoria %s não foi encontrada", p.getCategoria().getCodigo()), 2);
+			}
+		} else {
+			throw new EmptyResultDataAccessException("A Categoria não pode ser nula", 2);
+
+		}
+
+		return repo.save(p);
 	}
 
 }
