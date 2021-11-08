@@ -24,6 +24,7 @@ import com.vendas.gestaovendas.servico.ProdutoServico;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 
 @RestController
 @RequestMapping("/produtos")
@@ -79,9 +80,9 @@ public class ProdutoController {
 		LOGGER.info("Iniciando a remoção do registro [{}] ", codigo);
 	}
 
-	@ApiOperation(value = "criar")
+	@ApiOperation(value = "criar" , nickname = "Salvar")
 	@PostMapping()
-	public ResponseEntity<Produto> criar(@RequestBody Produto p) {
+	public ResponseEntity<Produto> criar(@RequestBody() Produto produto) {
 
 		Produto produtoNovo = prodServico.criar(p);
 		LOGGER.trace("Produto Novo criado {} ", produtoNovo);
