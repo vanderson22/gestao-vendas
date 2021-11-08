@@ -84,7 +84,7 @@ public class ProdutoController {
 	@PostMapping()
 	public ResponseEntity<Produto> criar(@RequestBody() Produto produto) {
 
-		Produto produtoNovo = prodServico.criar(p);
+		Produto produtoNovo = prodServico.criar(produto);
 		LOGGER.trace("Produto Novo criado {} ", produtoNovo);
 
 		return ResponseEntity.status(HttpStatus.CREATED).body(produtoNovo);
