@@ -30,7 +30,7 @@ import io.swagger.annotations.ApiOperation;
 @Api(tags = "Produto")
 public class ProdutoController {
 
-	final static Logger LOGGER = LoggerFactory.getLogger(ProdutoController.class);
+	final Logger LOGGER = LoggerFactory.getLogger(ProdutoController.class);
 
 	@Autowired
 	private ProdutoServico prodServico;
@@ -56,6 +56,15 @@ public class ProdutoController {
 		return ResponseEntity.ok(prodServico.buscarPorId(codigo));
 	}
 
+	
+	@ApiOperation(value = "buscar-produto-categoria")
+	@GetMapping(path = "/categoria/{codigo}")
+	public ResponseEntity<List<Produto>> buscarPorCategoriaCodigo(@PathVariable(name = "codigo", required = true) Long codigo) {
+
+		return ResponseEntity.ok(prodServico.buscarPorCategoriaCodigo(codigo));
+	}
+	
+	
 	@ApiOperation(value = "deletar")
 	@DeleteMapping(path = "/{codigo}")
 	@ResponseStatus(code = HttpStatus.NO_CONTENT)

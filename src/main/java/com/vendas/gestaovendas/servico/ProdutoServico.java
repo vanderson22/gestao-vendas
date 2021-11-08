@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 import com.vendas.gestaovendas.controlador.ProdutoController;
 import com.vendas.gestaovendas.entidades.Categoria;
 import com.vendas.gestaovendas.entidades.Produto;
-import com.vendas.gestaovendas.excecao.RegraNegocioException;
 import com.vendas.gestaovendas.repositorio.ProdutoRepositorio;
 
 @Service
@@ -39,7 +38,7 @@ public class ProdutoServico {
 	}
 
 	public Produto buscarPorId(Long codigo) {
-		Optional<Produto> opt = repo.findById(codigo);
+		Optional<Produto> opt = repo.buscarPorCodigo(codigo);
 		if (!opt.isPresent())
 			throw new EmptyResultDataAccessException(2);
 		return opt.get();
@@ -68,6 +67,11 @@ public class ProdutoServico {
 		}
 
 		return repo.save(p);
+	}
+
+	public List<Produto> buscarPorCategoriaCodigo(Long codigo) {
+		return repo.findByCategoriaCodigoOrderByDescricaoDesc(codigo);
+
 	}
 
 }
