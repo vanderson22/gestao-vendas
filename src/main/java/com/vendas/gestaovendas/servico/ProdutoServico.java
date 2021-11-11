@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
@@ -68,17 +69,52 @@ public class ProdutoServico {
 
 	}
 
-	private void validarCategoria(Categoria categoria) {
+	private Categoria validarCategoria(Categoria categoria) {
+
+		LOGGER.info(String.format("A Produto %s não foi encontrada", categoria));
 
 		if (categoria == null || categoria.getCodigo() == null)
 			throw new RegraNegocioException("Categoria não pode ser nula");
 
 		Optional<Categoria> optional = catRepo.buscarPorId(categoria.getCodigo());
-		if (!optional.isPresent()) {
+		if (optional.isEmpty()) {
+			LOGGER.info(String.format("A Categoria %s não foi encontrada", categoria.getCodigo()));
 			throw new EmptyResultDataAccessException(
 					String.format("A Categoria %s não foi encontrada", categoria.getCodigo()), 1);
 		}
 
+		return optional.get();
+	}
+
+	private Produto validarProduto(Produto produto, Long codigo, Boolean validacaoDuplicado) {
+
+		if (produto == null || produto.getCodigo() == 0)
+			throw new RegraNegocioException("Produto não pode ser nulo");
+
+		Optional<Produto> optional = repo.buscarPorCodigo(produto.getCodigo());
+		if (!optional.isPresent()) {
+			throw new EmptyResultDataAccessException(
+					String.format("A Produto %s não foi encontrada", produto.getCodigo()), 1);
+		}
+
+		if (Boolean.TRUE.equals(validacaoDuplicado)
+				&& (!repo.findByDescricao(produto.getDescricao()).getCodigo().equals(codigo)))
+			throw new RegraNegocioException("Já existe produto cadastrado com a mesma descricao ");
+
+		return optional.get();
+
+	}
+
+	public Produto atualizar(Long codigoCategoria, Long codigo, Produto produto) {
+
+		validarCategoria(new Categoria(codigoCategoria, null));
+		Produto produtoValidado = validarProduto(produto, codigo, true);
+
+		// Cópiar tudo para o produtoValidado exceto o código.
+		BeanUtils.copyProperties(produto, produtoValidado, "codigo");
+		produtoValidado.getCategoria().setCodigo(codigoCategoria);
+
+		return repo.save(produtoValidado);
 	}
 
 }

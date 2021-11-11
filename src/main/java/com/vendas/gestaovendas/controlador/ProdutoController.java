@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -26,7 +27,6 @@ import com.vendas.gestaovendas.servico.ProdutoServico;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
 
 @RestController
 @RequestMapping("/produtos")
@@ -59,15 +59,27 @@ public class ProdutoController {
 		return ResponseEntity.ok(prodServico.buscarPorId(codigo));
 	}
 
-	
 	@ApiOperation(value = "buscar-produto-categoria")
 	@GetMapping(path = "/categoria/{codigo}")
-	public ResponseEntity<List<Produto>> buscarPorCategoriaCodigo(@PathVariable(name = "codigo", required = true) Long codigo) {
+	public ResponseEntity<List<Produto>> buscarPorCategoriaCodigo(
+			@PathVariable(name = "codigo", required = true) Long codigo) {
 
 		return ResponseEntity.ok(prodServico.buscarPorCategoriaCodigo(codigo));
 	}
-	
-	
+
+	@ApiOperation(value = "atualizar")
+	@PutMapping(path = "/{codigo}/categoria/{codigoCategoria}")
+	@ResponseStatus(code = HttpStatus.NO_CONTENT)
+	/**
+	 * @param codigo do produto que será removido
+	 */
+	public ResponseEntity<Produto> atualizar(@PathVariable(name = "codigoCategoria") Long codigoCategoria,
+			@PathVariable(name = "codigo") Long codigo, @RequestBody Produto produto) {
+
+		Produto produtoAtualizado = prodServico.atualizar(codigoCategoria, codigo, produto);
+		return ResponseEntity.ok(produtoAtualizado);
+	}
+
 	@ApiOperation(value = "deletar")
 	@DeleteMapping(path = "/{codigo}")
 	@ResponseStatus(code = HttpStatus.NO_CONTENT)
@@ -82,7 +94,7 @@ public class ProdutoController {
 		LOGGER.info("Iniciando a remoção do registro [{}] ", codigo);
 	}
 
-	@ApiOperation(value = "criar" , nickname = "Salvar")
+	@ApiOperation(value = "criar", nickname = "Salvar")
 	@PostMapping()
 	public ResponseEntity<Produto> criar(@Valid @RequestBody() Produto produto) {
 

@@ -10,7 +10,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
@@ -21,14 +20,14 @@ public class Produto {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long codigo;
+	private Long codigo;
 
 	@Column(name = "descricao")
 	@NotBlank(message = "descricao")
 	@Length(min = 3, message = "Não pode ter menos de 3 caracteres ")
 	private String descricao;
 
-	 @NotNull(message = "A quantidade não pode ser nula")
+	@NotNull(message = "A quantidade não pode ser nula")
 	@Column(name = "quantidade")
 	private Integer quantidade;
 
@@ -47,7 +46,7 @@ public class Produto {
 
 	@ManyToOne
 	@JoinColumn(name = "codigo_categoria", referencedColumnName = "codigo")
-	@NotNull(message = "Categoria - codigo - O campo não pode ser nulo")
+	@NotNull(message = "Categoria - O campo não pode ser nulo")
 	private Categoria categoria;
 
 	public Produto() {
@@ -62,7 +61,7 @@ public class Produto {
 	 * @param observacao
 	 * @param categoria
 	 */
-	public Produto(long codigo, String descricao, Integer quantidade, BigDecimal precoCusto, BigDecimal precoVenda,
+	public Produto(Long codigo, String descricao, Integer quantidade, BigDecimal precoCusto, BigDecimal precoVenda,
 			String observacao) {
 		super();
 		this.codigo = codigo;
@@ -77,14 +76,14 @@ public class Produto {
 	/**
 	 * @return the codigo
 	 */
-	public long getCodigo() {
+	public Long getCodigo() {
 		return codigo;
 	}
 
 	/**
 	 * @param codigo the codigo to set
 	 */
-	public void setCodigo(long codigo) {
+	public void setCodigo(Long codigo) {
 		this.codigo = codigo;
 	}
 
