@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -42,6 +43,7 @@ public class GestaoVendasExceptionHandler extends ResponseEntityExceptionHandler
 	private static final String CONST_VALID_NOT_BLANK = "NotBlank";
 	private static final String CONST_VALID_LENGTH = "Length";
 	private static final String CONST_VALID_NOT_BLANK_REQUIRED = " é obrigatório";
+	private static final Object CONST_VALID_NOTNULL = "NotNull";
 
 	@Override
 	protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
@@ -59,6 +61,29 @@ public class GestaoVendasExceptionHandler extends ResponseEntityExceptionHandler
 	 * IMPORTANTE, a assinatura do método deve ser somente a exception e o request.
 	 * conforme a seguir
 	 */
+
+	@ExceptionHandler(DataIntegrityViolationException.class)
+	public ResponseEntity<Object> handleEmptyResultDataAccessException(DataIntegrityViolationException ex,
+			WebRequest request) {
+
+		String msgU = "Recurso não foi encontrado.";
+		String msgDev = ex.toString();
+
+		List<Erro> errors = Arrays.asList(new Erro(msgU, msgDev));
+
+		return handleExceptionInternal(ex, errors, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
+	}
+
+	@ExceptionHandler(RegraNegocioException.class)
+	public ResponseEntity<Object> handleEmptyResultDataAccessException(RegraNegocioException ex, WebRequest request) {
+
+		String msgU = ex.getMessage();
+		String msgDev = ex.toString();
+
+		List<Erro> errors = Arrays.asList(new Erro(msgU, msgDev));
+
+		return handleExceptionInternal(ex, errors, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
+	}
 
 	@ExceptionHandler(EmptyResultDataAccessException.class)
 	public ResponseEntity<Object> handleEmptyResultDataAccessException(EmptyResultDataAccessException ex,
@@ -105,6 +130,10 @@ public class GestaoVendasExceptionHandler extends ResponseEntityExceptionHandler
 		}
 
 		if (fieldError != null && fieldError.getCode() != null && fieldError.getCode().equals(CONST_VALID_LENGTH)) {
+			return fieldError.getDefaultMessage();
+		}
+
+		if (fieldError != null && fieldError.getCode() != null && fieldError.getCode().equals(CONST_VALID_NOTNULL)) {
 			return fieldError.getDefaultMessage();
 		}
 

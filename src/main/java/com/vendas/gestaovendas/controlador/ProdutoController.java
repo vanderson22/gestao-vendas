@@ -2,6 +2,8 @@ package com.vendas.gestaovendas.controlador;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -82,7 +84,7 @@ public class ProdutoController {
 
 	@ApiOperation(value = "criar" , nickname = "Salvar")
 	@PostMapping()
-	public ResponseEntity<Produto> criar(@RequestBody() Produto produto) {
+	public ResponseEntity<Produto> criar(@Valid @RequestBody() Produto produto) {
 
 		Produto produtoNovo = prodServico.criar(produto);
 		LOGGER.trace("Produto Novo criado {} ", produtoNovo);

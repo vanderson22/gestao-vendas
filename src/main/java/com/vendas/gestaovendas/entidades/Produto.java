@@ -10,7 +10,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Length;
 
@@ -23,23 +25,29 @@ public class Produto {
 
 	@Column(name = "descricao")
 	@NotBlank(message = "descricao")
-	@Length(min = 3, message = "Não pode ter menos de 3 caracteres - %1")
+	@Length(min = 3, message = "Não pode ter menos de 3 caracteres ")
 	private String descricao;
 
+	 @NotNull(message = "A quantidade não pode ser nula")
 	@Column(name = "quantidade")
 	private Integer quantidade;
 
+	@NotNull(message = "precoCusto - O campo não pode ser nulo")
 	@Column(name = "preco_curto")
 	private BigDecimal precoCusto;
 
+	@NotNull(message = "precoVenda - O campo não pode ser nulo")
 	@Column(name = "preco_venda")
 	private BigDecimal precoVenda;
 
+	@NotNull(message = "observacao - O campo não pode ser nulo")
 	@Column(name = "observacao")
+	@Length(min = 3, message = "Não pode ter menos de 3 caracteres - %1")
 	private String observacao;
 
 	@ManyToOne
 	@JoinColumn(name = "codigo_categoria", referencedColumnName = "codigo")
+	@NotNull(message = "Categoria - codigo - O campo não pode ser nulo")
 	private Categoria categoria;
 
 	public Produto() {

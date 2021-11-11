@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import com.vendas.gestaovendas.controlador.ProdutoController;
 import com.vendas.gestaovendas.entidades.Categoria;
 import com.vendas.gestaovendas.entidades.Produto;
+import com.vendas.gestaovendas.excecao.RegraNegocioException;
 import com.vendas.gestaovendas.repositorio.ProdutoRepositorio;
 
 @Service
@@ -54,23 +55,29 @@ public class ProdutoServico {
 	}
 
 	public Produto criar(Produto p) {
-		if (p.getCategoria() != null && p.getCategoria().getCodigo() != null) {
 
-			Optional<Categoria> optional = catRepo.buscarPorId(p.getCategoria().getCodigo());
-			if (!optional.isPresent()) {
-				throw new EmptyResultDataAccessException(
-						String.format("A Categoria %s não foi encontrada", p.getCategoria().getCodigo()), 2);
-			}
-		} else {
-			throw new EmptyResultDataAccessException("A Categoria não pode ser nula", 2);
-
-		}
+		validarCategoria(p.getCategoria());
 
 		return repo.save(p);
 	}
 
 	public List<Produto> buscarPorCategoriaCodigo(Long codigo) {
+		validarCategoria(new Categoria(codigo, null));
+
 		return repo.findByCategoriaCodigoOrderByDescricaoDesc(codigo);
+
+	}
+
+	private void validarCategoria(Categoria categoria) {
+
+		if (categoria == null || categoria.getCodigo() == null)
+			throw new RegraNegocioException("Categoria não pode ser nula");
+
+		Optional<Categoria> optional = catRepo.buscarPorId(categoria.getCodigo());
+		if (!optional.isPresent()) {
+			throw new EmptyResultDataAccessException(
+					String.format("A Categoria %s não foi encontrada", categoria.getCodigo()), 1);
+		}
 
 	}
 
