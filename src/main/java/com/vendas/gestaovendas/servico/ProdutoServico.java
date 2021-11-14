@@ -27,7 +27,7 @@ public class ProdutoServico {
 	@Autowired
 	private CategoriaServico catRepo;
 
-	final static Logger LOGGER = LoggerFactory.getLogger(ProdutoController.class);
+	final Logger LOGGER = LoggerFactory.getLogger(ProdutoServico.class);
 
 	public List<Produto> listarTodos() {
 
@@ -55,26 +55,32 @@ public class ProdutoServico {
 
 	}
 
-	public Produto criar(Produto p) {
+	public Produto criar(Produto p, Long codigoCategoria) {
 
-		validarCategoria(p.getCategoria());
+		validarCategoria(p.getCategoria(), codigoCategoria);
 
 		return repo.save(p);
 	}
 
 	public List<Produto> buscarPorCategoriaCodigo(Long codigo) {
-		validarCategoria(new Categoria(codigo, null));
+		validarCategoria(new Categoria(codigo, null), codigo);
 
 		return repo.findByCategoriaCodigoOrderByDescricaoDesc(codigo);
 
 	}
 
-	private Categoria validarCategoria(Categoria categoria) {
+	private Categoria validarCategoria(Categoria categoria, Long codigoCategoria) {
 
 		LOGGER.info(String.format("A Produto %s não foi encontrada", categoria));
 
-		if (categoria == null || categoria.getCodigo() == null)
+		if (categoria == null || categoria.getCodigo() == null || codigoCategoria == null)
 			throw new RegraNegocioException("Categoria não pode ser nula");
+
+		if (!codigoCategoria.equals(categoria.getCodigo())) {
+			throw new RegraNegocioException(
+					String.format("A Categoria informada não pode ser diferente  categoria no Path[%s]  - Categoria no objeto [%s]",
+							categoria.getCodigo(), codigoCategoria));
+		}
 
 		Optional<Categoria> optional = catRepo.buscarPorId(categoria.getCodigo());
 		if (optional.isEmpty()) {
@@ -107,7 +113,7 @@ public class ProdutoServico {
 
 	public Produto atualizar(Long codigoCategoria, Long codigo, Produto produto) {
 
-		validarCategoria(new Categoria(codigoCategoria, null));
+		validarCategoria(new Categoria(codigoCategoria, null), codigoCategoria);
 		Produto produtoValidado = validarProduto(produto, codigo, true);
 
 		// Cópiar tudo para o produtoValidado exceto o código.

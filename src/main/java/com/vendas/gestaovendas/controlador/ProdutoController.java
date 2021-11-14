@@ -29,7 +29,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
 @RestController
-@RequestMapping("/produtos")
+@RequestMapping("/categorias")
 @Api(tags = "Produto")
 public class ProdutoController {
 
@@ -39,28 +39,28 @@ public class ProdutoController {
 	private ProdutoServico prodServico;
 
 	@ApiOperation(value = "Listar")
-	@GetMapping
+	@GetMapping("/produtos")
 	public ResponseEntity<List<Produto>> listarTodos() {
 
 		return ResponseEntity.ok(prodServico.listarTodos());
 	}
 
 	@ApiOperation(value = "Listar-paginado")
-	@GetMapping(params = { "page", "size" })
+	@GetMapping(params = { "page", "size" } , path = "/produtos")
 	public ResponseEntity<Page<Produto>> listarTodos(@RequestParam("page") int page, @RequestParam("size") int size) {
 		PageRequest req = PageRequest.of(page, size);
 		return ResponseEntity.ok(prodServico.listarTodosPaginado(req));
 	}
 
 	@ApiOperation(value = "buscar-id")
-	@GetMapping(path = "/{codigo}")
+	@GetMapping(path = "/produtos/{codigo}")
 	public ResponseEntity<Produto> buscarPorId(@PathVariable(name = "codigo", required = true) Long codigo) {
 
 		return ResponseEntity.ok(prodServico.buscarPorId(codigo));
 	}
 
 	@ApiOperation(value = "buscar-produto-categoria")
-	@GetMapping(path = "/categoria/{codigo}")
+	@GetMapping(path = "/{codigo}/produtos")
 	public ResponseEntity<List<Produto>> buscarPorCategoriaCodigo(
 			@PathVariable(name = "codigo", required = true) Long codigo) {
 
@@ -68,7 +68,7 @@ public class ProdutoController {
 	}
 
 	@ApiOperation(value = "atualizar")
-	@PutMapping(path = "/{codigo}/categoria/{codigoCategoria}")
+	@PutMapping(path = "/{codigoCategoria}/produtos/{codigo}")
 	@ResponseStatus(code = HttpStatus.NO_CONTENT)
 	/**
 	 * @param codigo do produto que será removido
@@ -81,7 +81,7 @@ public class ProdutoController {
 	}
 
 	@ApiOperation(value = "deletar")
-	@DeleteMapping(path = "/{codigo}")
+	@DeleteMapping(path = "/produtos/{codigo}")
 	@ResponseStatus(code = HttpStatus.NO_CONTENT)
 	/**
 	 * @param codigo do produto que será removido
@@ -94,11 +94,11 @@ public class ProdutoController {
 		LOGGER.info("Iniciando a remoção do registro [{}] ", codigo);
 	}
 
-	@ApiOperation(value = "criar", nickname = "Salvar")
-	@PostMapping()
-	public ResponseEntity<Produto> criar(@Valid @RequestBody() Produto produto) {
+	@ApiOperation(value = "criar", nickname = "Salvar-produto")
+	@PostMapping ( path = "/{codigoCategoria}/produtos")
+	public ResponseEntity<Produto> criar(@Valid @RequestBody() Produto produto , @PathVariable(name = "codigoCategoria") Long codigoCategoria) {
 
-		Produto produtoNovo = prodServico.criar(produto);
+		Produto produtoNovo = prodServico.criar(produto , codigoCategoria);
 		LOGGER.trace("Produto Novo criado {} ", produtoNovo);
 
 		return ResponseEntity.status(HttpStatus.CREATED).body(produtoNovo);
