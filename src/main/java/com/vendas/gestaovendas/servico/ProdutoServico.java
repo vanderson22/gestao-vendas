@@ -46,7 +46,9 @@ public class ProdutoServico {
 		return opt.get();
 	}
 
-	public void remover(Long codigo) {
+	public void remover(Long codigo, Long codigoCategoria) {
+
+		validarCategoria(new Categoria(codigoCategoria, null), codigoCategoria);
 
 		Produto produto = buscarPorId(codigo);
 		LOGGER.trace("Produto encontrado {} - prosseguindo com a remoção ", produto);
@@ -77,9 +79,9 @@ public class ProdutoServico {
 			throw new RegraNegocioException("Categoria não pode ser nula");
 
 		if (!codigoCategoria.equals(categoria.getCodigo())) {
-			throw new RegraNegocioException(
-					String.format("A Categoria informada não pode ser diferente  categoria no Path[%s]  - Categoria no objeto [%s]",
-							categoria.getCodigo(), codigoCategoria));
+			throw new RegraNegocioException(String.format(
+					"A Categoria informada não pode ser diferente  categoria no Path[%s]  - Categoria no objeto [%s]",
+					categoria.getCodigo(), codigoCategoria));
 		}
 
 		Optional<Categoria> optional = catRepo.buscarPorId(categoria.getCodigo());
