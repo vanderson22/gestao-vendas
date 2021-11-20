@@ -12,7 +12,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import com.vendas.gestaovendas.controlador.ProdutoController;
 import com.vendas.gestaovendas.entidades.Categoria;
 import com.vendas.gestaovendas.entidades.Produto;
 import com.vendas.gestaovendas.excecao.RegraNegocioException;
