@@ -15,7 +15,8 @@
 	<name>gestao-vendas</name>
 	<description>Carteira de cliente</description>
 	<properties>
-		<java.version>1.8</java.version>
+		<java.version>1.8</java.version> 
+		<micrometer.version>1.6.3</micrometer.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -40,7 +41,6 @@
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
-			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -81,6 +81,14 @@
 			<groupId>io.opentracing.contrib</groupId>
 			<artifactId>opentracing-jdbc</artifactId>
 			<version>0.2.13</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>io.micrometer</groupId>
+			<artifactId>micrometer-registry-prometheus</artifactId>
 		</dependency>
 	</dependencies>
 

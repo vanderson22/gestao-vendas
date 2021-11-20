@@ -1,0 +1,50 @@
+version: '3.8'
+
+
+services: 
+########################### banco de dados ################################
+   mysql:
+      image: mysql:8.0.22
+      container_name: mysql_gvendas
+      
+      ports:
+         - 3306:3306
+      environment: 
+         MYSQL_USER: gvendas
+         MYSQL_PASSWORD: gvendas
+         MYSQL_ROOT_PASSWORD: root
+         MYSQL_DATABASE: gvendas_db
+########################### Tracing db ################################
+         
+   jaeger:
+      image: jaegertracing/all-in-one:1.21
+      container_name: jaeger_gvendas
+      ports: 
+         - "5775:5775/udp"
+         - "6831:6831/udp"
+         - "6832:6832/udp"
+         - "5778:5778"
+         - 16686:16686
+         - 14268:14268
+         - 14250:14250
+         - 9411:9411
+ ########################### Métricas  ################################
+  
+   prometheus:
+       image: prom/prometheus:v2.21.0
+       container_name: prometheus_gvendas
+       ports:
+         - 9090:9090
+       volumes:
+         - C:/temp/workspace-spring-testes/gestao-vendas/prometheus.yml:/etc/prometheus/prometheus.yml
+        
+       command: '--web.enable-lifecycle  --config.file=/etc/prometheus/prometheus.yml'
+ ########################### Dashboards ################################
+ 
+   grafana: 
+       image: grafana/grafana:7.4.0
+       container_name: grafana_gvendas
+       ports:    
+          - 3000:3000 
+       #senha gvendas - gvendas  
+       #senha default admin - admin
