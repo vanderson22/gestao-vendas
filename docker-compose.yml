@@ -1,6 +1,24 @@
 version: '3.8'
 services:
-########################### banco de dados ################################
+# docker compose up -d
+# docker compose up --build -d
+########################### Criado com Dockerfile ######################## 
+   meu_app:
+    #importante buildar
+      build:
+         context: . #ponto pois está no mesmo lugar
+         dockerfile: Dockerfile
+      container_name: gestao_vendas_app
+      ports:
+         - 8080:8080
+      depends_on:
+         - mysql
+         - jaeger
+         - prometheus   
+         - grafana
+      command: ["-c",  "sh /mysql_wait_for.sh mysql:3306   && java -jar /app.jar"]
+      entrypoint: ["/bin/sh"]
+########################### banco de dados ###############################
    mysql:
       image: mysql:8.0.22
       container_name: mysql_gvendas

@@ -32,7 +32,7 @@ public class CategoriaControlador {
 	@Autowired
 	private CategoriaServico service;
 
-	@ApiOperation(value = "Listar")
+	@ApiOperation(code = 200, response = Categoria.class, value = "Listar-Categoria", notes = "Lista todas as categorias existentes na aplicação Gestão Vendas", consumes = "application/json", produces = "application/json", httpMethod = "GET", tags = "\"Categoria\"")
 	@GetMapping
 	public List<Categoria> listarTodas() {
 

@@ -2,8 +2,6 @@ package com.vendas.gestaovendas.controlador;
 
 import java.util.List;
 
-import javax.websocket.server.PathParam;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.vendas.gestaovendas.entidades.Cliente;
+import com.vendas.gestaovendas.entidades.dto.ClinteResponseDto;
 import com.vendas.gestaovendas.servico.ClienteServico;
 
 import io.swagger.annotations.Api;
@@ -34,9 +33,10 @@ public class ClienteController {
 
 	@ApiOperation(value = "BuscarPorId")
 	@GetMapping("/{codigo}")
-	public ResponseEntity<Cliente> buscarPorId(@PathVariable(name = "codigo") Long codigo) {
+	public ResponseEntity<ClinteResponseDto> buscarPorId(@PathVariable(name = "codigo") Long codigo) {
 
-		return ResponseEntity.ok().body(clienteServico.buscarPorId(codigo));
+		return ResponseEntity.ok()
+				.body(ClinteResponseDto.converterParaClienteResponseDto(clienteServico.buscarPorId(codigo)));
 	}
 
 }

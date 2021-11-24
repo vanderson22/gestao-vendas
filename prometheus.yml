@@ -14,4 +14,5 @@ scrape_configs:
     metrics_path: '/actuator/prometheus'
     # scheme defaults to 'http'.
     static_configs:
-      - targets: ['192.168.15.23:8080'] #mesmo sendo docker precisa do ip real
+      - targets: ['meu_app:8080']
+#      - targets: ['192.168.15.23:8080'] #mesmo sendo docker precisa do ip real

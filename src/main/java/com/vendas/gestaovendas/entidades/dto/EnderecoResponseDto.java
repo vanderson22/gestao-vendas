@@ -1,33 +1,35 @@
-package com.vendas.gestaovendas.entidades;
+package com.vendas.gestaovendas.entidades.dto;
 
 import java.util.Objects;
 
 import javax.persistence.Column;
-import javax.persistence.Embeddable;
 
-@Embeddable
-//atenção, não é uma entidade
-public class Endereco {
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
-	@Column(name = "numero")
+@ApiModel("Endereco Response Dto")
+public class EnderecoResponseDto {
+
+	@ApiModelProperty(value = "Numero")
 	private Long numero;
 
-	@Column(name = "logradouro")
+	@ApiModelProperty(value = "Logradouro")
 	private String logradouro;
 
-	@Column(name = "estado")
+	@ApiModelProperty(value = "Estado")
 	private String estado;
+
+	@ApiModelProperty(value = "cidade")
 	@Column(name = "cidade")
 	private String cidade;
 
-	@Column(name = "cep")
+	@ApiModelProperty(value = "Cep")
 	private String cep;
 
-	@Column(name = "bairro")
+	@Column(name = "Bairro")
 	private String bairro;
-	
-	
-	public Endereco() {
+
+	public EnderecoResponseDto() {
 	}
 
 	/**
@@ -38,7 +40,8 @@ public class Endereco {
 	 * @param cep
 	 * @param bairro
 	 */
-	public Endereco(Long numero, String logradouro, String estado, String cidade, String cep, String bairro) {
+	public EnderecoResponseDto(Long numero, String logradouro, String estado, String cidade, String cep,
+			String bairro) {
 		this.numero = numero;
 		this.logradouro = logradouro;
 		this.estado = estado;
@@ -46,26 +49,6 @@ public class Endereco {
 		this.cep = cep;
 		this.bairro = bairro;
 	}
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(bairro, cep, cidade, estado, logradouro, numero);
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Endereco other = (Endereco) obj;
-		return Objects.equals(bairro, other.bairro) && Objects.equals(cep, other.cep)
-				&& Objects.equals(cidade, other.cidade) && Objects.equals(estado, other.estado)
-				&& Objects.equals(logradouro, other.logradouro) && Objects.equals(numero, other.numero);
-	}
-	
 
 	/**
 	 * @return the numero
@@ -149,6 +132,25 @@ public class Endereco {
 	 */
 	public void setBairro(String bairro) {
 		this.bairro = bairro;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(bairro, cep, cidade, estado, logradouro, numero);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		EnderecoResponseDto other = (EnderecoResponseDto) obj;
+		return Objects.equals(bairro, other.bairro) && Objects.equals(cep, other.cep)
+				&& Objects.equals(cidade, other.cidade) && Objects.equals(estado, other.estado)
+				&& Objects.equals(logradouro, other.logradouro) && Objects.equals(numero, other.numero);
 	}
 
 }
