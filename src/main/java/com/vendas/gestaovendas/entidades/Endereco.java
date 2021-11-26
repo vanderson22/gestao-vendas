@@ -9,6 +9,7 @@ import javax.validation.constraints.Pattern;
 import org.hibernate.validator.constraints.Length;
 
 import com.sun.istack.NotNull;
+import com.vendas.gestaovendas.entidades.dto.EnderecoRequisicaoDto;
 
 @Embeddable
 //atenção, não é uma entidade
@@ -18,30 +19,29 @@ public class Endereco {
 	@Column(name = "numero")
 	private Long numero;
 
-	@Length(max = 60 , message = "Logradouro")
+	@Length(max = 60, message = "Logradouro")
 	@NotNull
 	@Column(name = "logradouro")
 	private String logradouro;
 
 	@NotNull
-	@Pattern(regexp = "[A-Z]{2}" , message="Estado" )
+	@Pattern(regexp = "[A-Z]{2}", message = "Estado")
 	@Column(name = "estado")
 	private String estado;
-	
+
 	@NotNull
 	@Column(name = "cidade")
 	private String cidade;
 
 	@NotNull
-	@Pattern(regexp = "[\\d]{5}-[\\d]{3}" , message="Cep" )
+	@Pattern(regexp = "[\\d]{5}-[\\d]{3}", message = "Cep")
 	@Column(name = "cep")
 	private String cep;
 
 	@NotNull
 	@Column(name = "bairro")
 	private String bairro;
-	
-	
+
 	public Endereco() {
 	}
 
@@ -80,7 +80,6 @@ public class Endereco {
 				&& Objects.equals(cidade, other.cidade) && Objects.equals(estado, other.estado)
 				&& Objects.equals(logradouro, other.logradouro) && Objects.equals(numero, other.numero);
 	}
-	
 
 	/**
 	 * @return the numero
@@ -164,6 +163,17 @@ public class Endereco {
 	 */
 	public void setBairro(String bairro) {
 		this.bairro = bairro;
+	}
+
+	/**
+	 * @param enderecoReqDto 
+	 * @return converte a entrada do dto para um novo objeto de endereço
+	 */
+	public static Endereco converterDtoParaEndereco(EnderecoRequisicaoDto enderecoReqDto) {
+
+		return new Endereco(enderecoReqDto.getNumero(), enderecoReqDto.getLogradouro(), enderecoReqDto.getEstado(),
+				enderecoReqDto.getCidade(), enderecoReqDto.getCep(), enderecoReqDto.getBairro());
+
 	}
 
 }
