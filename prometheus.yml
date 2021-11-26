@@ -5,7 +5,7 @@ scrape_configs:
   # The job name is added as a label `job=<job_name>` to any timeseries scraped from this config.
   - job_name: "prometheus"
     static_configs:
-      - targets: ["localhost:9090"]
+      - targets: ["prometheus:9090"]
  
  
   # The job name is added as a label `job=<job_name>` to any timeseries scraped from this config.
@@ -14,5 +14,5 @@ scrape_configs:
     metrics_path: '/actuator/prometheus'
     # scheme defaults to 'http'.
     static_configs:
-      - targets: ['meu_app:8080']
+      - targets: ['app:8080']
 #      - targets: ['192.168.15.23:8080'] #mesmo sendo docker precisa do ip real

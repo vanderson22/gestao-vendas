@@ -10,9 +10,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 
 import org.hibernate.validator.constraints.Length;
+
+import com.sun.istack.NotNull;
 
 @SuppressWarnings("serial")
 @Entity
@@ -25,7 +28,7 @@ public class Cliente implements Serializable {
 
 	@Column(name = "nome")
 	@NotBlank(message = "Nome")
-	@Length(min = 3, message = "Não pode ter menos de 3 caracteres")
+	@Length(min = 3, max =120 ,  message = "Não pode ter menos de 3 caracteres")
 	private String nome;
 
 	@Column(name = "telefone")
@@ -36,6 +39,8 @@ public class Cliente implements Serializable {
 
 //	injetando endereço na mesma tabela, sem precisar todos atributos
 	@Embedded
+	@NotNull()
+	@Valid
 	private Endereco endereco;
 
 	public Cliente() {
@@ -148,5 +153,4 @@ public class Cliente implements Serializable {
 				&& Objects.equals(telefone, other.telefone);
 	}
 
-	
 }

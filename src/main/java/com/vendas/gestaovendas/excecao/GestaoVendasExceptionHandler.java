@@ -44,6 +44,8 @@ public class GestaoVendasExceptionHandler extends ResponseEntityExceptionHandler
 	private static final String CONST_VALID_LENGTH = "Length";
 	private static final String CONST_VALID_NOT_BLANK_REQUIRED = " é obrigatório";
 	private static final Object CONST_VALID_NOTNULL = "NotNull";
+	private static final Object CONST_VALID_PATTERN = "Pattern";
+	private static final String CONST_PATTERN_CEP = " O Padrão ";
 
 	@Override
 	protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
@@ -135,6 +137,10 @@ public class GestaoVendasExceptionHandler extends ResponseEntityExceptionHandler
 
 		if (fieldError != null && fieldError.getCode() != null && fieldError.getCode().equals(CONST_VALID_NOTNULL)) {
 			return fieldError.getDefaultMessage();
+		}
+
+		if (fieldError != null && fieldError.getCode() != null && fieldError.getCode().equals(CONST_VALID_PATTERN)) {
+			return fieldError.getDefaultMessage().concat(CONST_PATTERN_CEP).concat(CONST_VALID_NOT_BLANK_REQUIRED);
 		}
 
 		return null;

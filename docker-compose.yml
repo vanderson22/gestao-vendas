@@ -3,12 +3,13 @@ services:
 # docker compose up -d
 # docker compose up --build -d
 ########################### Criado com Dockerfile ######################## 
-   meu_app:
+   app:
     #importante buildar
       build:
          context: . #ponto pois está no mesmo lugar
          dockerfile: Dockerfile
       container_name: gestao_vendas_app
+      hostname: app
       ports:
          - 8080:8080
       depends_on:

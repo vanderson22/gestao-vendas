@@ -1,5 +1,5 @@
 #!/bin/sh
 
 
-
-sleep 30
+#Dorme 10 segundos até o banco de dados subir e executar a migration
+sleep 10

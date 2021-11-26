@@ -4,25 +4,40 @@ import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.validation.constraints.Pattern;
+
+import org.hibernate.validator.constraints.Length;
+
+import com.sun.istack.NotNull;
 
 @Embeddable
 //atenção, não é uma entidade
 public class Endereco {
 
+	@NotNull()
 	@Column(name = "numero")
 	private Long numero;
 
+	@Length(max = 60 , message = "Logradouro")
+	@NotNull
 	@Column(name = "logradouro")
 	private String logradouro;
 
+	@NotNull
+	@Pattern(regexp = "[A-Z]{2}" , message="Estado" )
 	@Column(name = "estado")
 	private String estado;
+	
+	@NotNull
 	@Column(name = "cidade")
 	private String cidade;
 
+	@NotNull
+	@Pattern(regexp = "[\\d]{5}-[\\d]{3}" , message="Cep" )
 	@Column(name = "cep")
 	private String cep;
 
+	@NotNull
 	@Column(name = "bairro")
 	private String bairro;
 	
