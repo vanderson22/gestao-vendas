@@ -28,7 +28,7 @@ import io.swagger.annotations.ApiOperation;
 @RequestMapping("/clientes")
 public class ClienteController {
 
-	final Logger LOGGER = LoggerFactory.getLogger(ProdutoController.class);
+	static final Logger LOGGER = LoggerFactory.getLogger(ClienteController.class);
 
 	@Autowired
 	private ClienteServico clienteServico;

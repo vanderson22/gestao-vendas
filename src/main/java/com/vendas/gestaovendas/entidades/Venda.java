@@ -11,29 +11,28 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.vendas.gestaovendas.entidades.dto.ClienteVendasRequisicaoDto;
+
 @Entity
 @Table(name = "venda")
 public class Venda {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="codigo")
+	@Column(name = "codigo")
 	private Long codigo;
 
-	@Column(name="data")
+	@Column(name = "data")
 	private LocalDate data;
-	
-	
+
 //	1 venda = 1 cliente
 //  1 cliente = N vendas    
-    @ManyToOne()
-    @JoinColumn(name="codigo_cliente" , referencedColumnName = "codigo")
+	@ManyToOne()
+	@JoinColumn(name = "codigo_cliente", referencedColumnName = "codigo")
 	private Cliente cliente;
 
-    public Venda() {
+	public Venda() {
 	}
-    
-    
 
 	/**
 	 * @param codigo
@@ -46,8 +45,6 @@ public class Venda {
 		this.data = data;
 		this.cliente = cliente;
 	}
-
-
 
 	/**
 	 * @return the codigo
@@ -91,5 +88,10 @@ public class Venda {
 		this.cliente = cliente;
 	}
 
-    
+	public static Venda converterDtoToVenda(ClienteVendasRequisicaoDto vendaDto) {
+
+		return new Venda(null, vendaDto.getData(), new Cliente(vendaDto.getCodigoCliente(), null, null, null, null));
+
+	}
+
 }

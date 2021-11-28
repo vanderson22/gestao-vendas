@@ -7,7 +7,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 @ApiModel("Cliente Requisicao Dto")
-public class ClinteRequisicaoDto {
+public class ClienteRequisicaoDto {
 
 	@ApiModelProperty(value = "Nome")
 	private String nome;
@@ -20,7 +20,7 @@ public class ClinteRequisicaoDto {
 
 	private EnderecoRequisicaoDto enderecoRequisicaoDto;
 
-	public ClinteRequisicaoDto() {
+	public ClienteRequisicaoDto() {
 
 	}
 
@@ -31,7 +31,7 @@ public class ClinteRequisicaoDto {
 	 * @param ativo
 	 */
 
-	public static Cliente converterParaCliente(ClinteRequisicaoDto dto) {
+	public static Cliente converterParaCliente(ClienteRequisicaoDto dto) {
 
 		EnderecoRequisicaoDto enderecoReqDto = dto.getEnderecoRequisicaoDto();
 		Endereco endereco = Endereco.converterDtoParaEndereco(enderecoReqDto);
@@ -47,9 +47,8 @@ public class ClinteRequisicaoDto {
 	 * @param ativo
 	 * @param enderecoResponseDto
 	 */
-	public ClinteRequisicaoDto(Long codigo, String nome, String telefone, Boolean ativo,
+	public ClienteRequisicaoDto(String nome, String telefone, Boolean ativo,
 			EnderecoRequisicaoDto enderecoRequisicaoDto) {
-		super();
 		this.nome = nome;
 		this.telefone = telefone;
 		this.ativo = ativo;
