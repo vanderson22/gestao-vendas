@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -18,6 +20,10 @@ public class ClienteVendasRequisicaoDto {
 
 	@ApiModelProperty(value = "ItensVendas")
 	private List<ItemVendaRequisicaoDto> itens;
+
+	@ApiModelProperty(value = "CodigoVenda")
+	@JsonIgnore
+	private Long codigoVenda;
 
 	public ClienteVendasRequisicaoDto() {
 	}
@@ -92,6 +98,16 @@ public class ClienteVendasRequisicaoDto {
 		ClienteVendasRequisicaoDto other = (ClienteVendasRequisicaoDto) obj;
 		return Objects.equals(codigoCliente, other.codigoCliente) && Objects.equals(data, other.data)
 				&& Objects.equals(itens, other.itens);
+	}
+
+	public void setCodigoVenda(Long codigo) {
+		this.codigoVenda = codigo;
+
+	}
+
+	public Long getCodigoVenda() {
+
+		return codigoVenda;
 	}
 
 }

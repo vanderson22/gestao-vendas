@@ -27,7 +27,6 @@ public class ItemVendaRequisicaoDto {
 	 * @param codigoVenda
 	 */
 	public ItemVendaRequisicaoDto(Integer quantidade, BigDecimal precoVendido, Long codigoProduto) {
-		super();
 		this.quantidade = quantidade;
 		this.precoVendido = precoVendido;
 		this.codigoProduto = codigoProduto;

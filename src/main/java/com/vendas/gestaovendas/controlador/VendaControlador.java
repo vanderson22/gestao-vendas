@@ -1,6 +1,5 @@
 package com.vendas.gestaovendas.controlador;
 
-import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.vendas.gestaovendas.entidades.Venda;
+import com.vendas.gestaovendas.entidades.dto.ClienteVendaRespostaDto;
 import com.vendas.gestaovendas.entidades.dto.ClienteVendasRequisicaoDto;
 import com.vendas.gestaovendas.servico.VendaServico;
 
@@ -47,7 +47,7 @@ public class VendaControlador {
 
 	@ApiOperation(value = "criar-venda")
 	@PostMapping(path = "/{codigoCliente}")
-	public ResponseEntity<Venda> criar(@PathVariable(name = "codigoCliente") Long codigoCliente,
+	public ResponseEntity<ClienteVendaRespostaDto> criar(@PathVariable(name = "codigoCliente") Long codigoCliente,
 			@RequestBody(required = true) ClienteVendasRequisicaoDto vendaDto) {
 
 		return ResponseEntity.status(HttpStatus.CREATED).body(vendaServico.salvar(codigoCliente, vendaDto));

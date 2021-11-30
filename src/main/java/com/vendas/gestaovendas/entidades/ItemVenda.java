@@ -1,7 +1,9 @@
 package com.vendas.gestaovendas.entidades;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,6 +13,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import com.vendas.gestaovendas.entidades.dto.ClienteVendasRequisicaoDto;
 
 @Entity
 @Table(name = "item_venda")
@@ -140,6 +144,16 @@ public class ItemVenda {
 		return Objects.equals(codigo, other.codigo) && Objects.equals(precoVendido, other.precoVendido)
 				&& Objects.equals(produto, other.produto) && Objects.equals(quantidade, other.quantidade)
 				&& Objects.equals(venda, other.venda);
+	}
+
+	public static List<ItemVenda> converterDtoParaItemVenda(ClienteVendasRequisicaoDto vendaDto) {
+
+		return
+				vendaDto.getItens().stream()
+				.map(p -> new ItemVenda(null, p.getQuantidade(), p.getPrecoVendido(),
+						new Produto(p.getCodigoProduto(), null, null, null, null, null),
+						new Venda(vendaDto.getCodigoVenda(), null, null)))
+				.collect(Collectors.toList());
 	}
 
 }
